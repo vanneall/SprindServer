@@ -1,10 +1,7 @@
 package ru.point.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,6 +9,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "product")
 public class Product {
@@ -33,4 +31,8 @@ public class Product {
     @CollectionTable(name = "product_photo")
     @Column(name = "photos_url", nullable = false)
     List<String> photosUrl;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    Shop shop;
 }

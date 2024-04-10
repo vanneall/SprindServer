@@ -1,4 +1,4 @@
-package ru.point.repository;
+package ru.point.repository.interfaces;
 
 import org.springframework.stereotype.Repository;
 import ru.point.entity.Product;
