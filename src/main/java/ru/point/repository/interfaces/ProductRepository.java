@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository {
-    List<ProductDto> getProducts();
+    List<ProductDto> getProducts(Integer limit, Integer offset);
 }

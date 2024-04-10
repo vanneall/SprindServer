@@ -20,8 +20,12 @@ class ProductRestController {
 
     ProductService service;
 
+    //TODO убрать required = false после добавления пагинации на фронте
     @GetMapping()
-    List<ProductDto> getProductsEndpoint() {
-        return service.getProducts();
+    List<ProductDto> getProductsEndpoint(
+            @RequestParam(required = false) Integer limit,
+            @RequestParam(required = false) Integer offset
+    ) {
+        return service.getProducts(limit, offset);
     }
 }

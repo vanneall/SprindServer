@@ -20,11 +20,20 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     @Transactional
-    public List<ProductDto> getProducts() {
+    public List<ProductDto> getProducts(Integer limit, Integer offset) {
         TypedQuery<Product> typedQuery = entityManager.createQuery("from Product", Product.class);
+        if (limit != null && offset != null) {
+            setLimitAndOffset(typedQuery, limit, offset);
+        }
+
         return typedQuery
                 .getResultStream()
                 .map(ProductMapper::map)
                 .toList();
+    }
+
+    private void setLimitAndOffset(TypedQuery<?> typedQuery, int limit, int offset) {
+        typedQuery.setFirstResult(offset);
+        typedQuery.setMaxResults(limit);
     }
 }

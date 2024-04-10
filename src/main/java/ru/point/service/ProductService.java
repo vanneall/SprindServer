@@ -16,7 +16,7 @@ public class ProductService {
         this.repository = repository;
     }
 
-    public List<ProductDto> getProducts() {
-        return repository.getProducts();
+    public List<ProductDto> getProducts(Integer limit, Integer offset) {
+        return repository.getProducts(limit, offset);
     }
 }
