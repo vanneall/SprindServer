@@ -32,7 +32,7 @@ public class Product {
     @Column(name = "photos_url", nullable = false)
     List<String> photosUrl;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     Shop shop;
 }

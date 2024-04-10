@@ -2,6 +2,7 @@ package ru.point.service;
 
 import org.springframework.stereotype.Service;
 import ru.point.entity.Product;
+import ru.point.entity.dto.ProductDto;
 import ru.point.repository.interfaces.ProductRepository;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class ProductService {
         this.repository = repository;
     }
 
-    public List<Product> getProducts() {
+    public List<ProductDto> getProducts() {
         return repository.getProducts();
     }
 }
