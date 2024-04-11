@@ -32,6 +32,20 @@ public class ProductRepositoryImpl implements ProductRepository {
                 .toList();
     }
 
+    @Override
+    public List<ProductDto> getProductsByName(Integer limit, Integer offset, String name) {
+        TypedQuery<Product> typedQuery = entityManager.createQuery("from Product pr where pr.name like :name", Product.class);
+        if (limit != null && offset != null) {
+            setLimitAndOffset(typedQuery, limit, offset);
+        }
+
+        return typedQuery
+                .setParameter("name", "%" + name + "%")
+                .getResultStream()
+                .map(ProductMapper::map)
+                .toList();
+    }
+
     private void setLimitAndOffset(TypedQuery<?> typedQuery, int limit, int offset) {
         typedQuery.setFirstResult(offset);
         typedQuery.setMaxResults(limit);

@@ -23,9 +23,15 @@ class ProductRestController {
     //TODO убрать required = false после добавления пагинации на фронте
     @GetMapping()
     List<ProductDto> getProductsEndpoint(
-            @RequestParam(required = false) Integer limit,
-            @RequestParam(required = false) Integer offset
+            @RequestParam(required = false, name = "limit") Integer limit,
+            @RequestParam(required = false, name = "offset") Integer offset,
+            @RequestParam(required = false, name = "name") String name
     ) {
-        return service.getProducts(limit, offset);
+        if (name == null) {
+            return service.getProducts(limit, offset);
+        } else {
+            return service.getProductsByName(limit, offset, name);
+        }
+
     }
 }

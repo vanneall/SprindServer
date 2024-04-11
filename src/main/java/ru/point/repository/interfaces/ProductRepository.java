@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ProductRepository {
     List<ProductDto> getProducts(Integer limit, Integer offset);
+
+    List<ProductDto> getProductsByName(Integer limit, Integer offset, String name);
 }

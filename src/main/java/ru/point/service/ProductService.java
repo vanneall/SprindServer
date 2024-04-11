@@ -19,4 +19,8 @@ public class ProductService {
     public List<ProductDto> getProducts(Integer limit, Integer offset) {
         return repository.getProducts(limit, offset);
     }
+
+    public List<ProductDto> getProductsByName(Integer limit, Integer offset, String name) {
+        return repository.getProductsByName(limit, offset, name);
+    }
 }
