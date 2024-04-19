@@ -1,9 +1,9 @@
-package ru.point.repository.interfaces;
+package ru.point.service.interfaces;
 
 import ru.point.entity.table.Shop;
 
 import java.util.List;
 
-public interface ShopRepository {
+public interface ShopService {
     List<Shop> getAllShop();
 }
