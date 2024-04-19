@@ -1,4 +1,4 @@
-package ru.point.entity;
+package ru.point.entity.table;
 
 public enum Currency {
     RUR,

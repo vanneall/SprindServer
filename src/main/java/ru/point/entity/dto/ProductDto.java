@@ -1,24 +1,39 @@
 package ru.point.entity.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import ru.point.entity.Price;
-import ru.point.entity.Product;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NonNull;
+import ru.point.entity.table.Category;
+import ru.point.entity.table.Price;
+import ru.point.entity.table.Shop;
 
 import java.util.List;
+import java.util.Map;
+
 
 public record ProductDto(
-        @Column(name = "id", nullable = false)
+        @NonNull
+        @JsonProperty(value = "id")
         Long id,
-        @Column(name = "name", nullable = false)
+        @NonNull
+        @JsonProperty(value = "name")
         String name,
-        @Column(name = "price", nullable = false)
+        @NonNull
+        @JsonProperty(value = "price")
         Price price,
-        @Column(name = "description")
+        @JsonProperty(value = "description")
         String description,
-        @ElementCollection
-        @Column(name = "photos_url", nullable = false)
-        List<String> photosUrl
-) { }
-
-
+        @NonNull
+        @JsonProperty(value = "characteristics")
+        Map<String, String> characteristics,
+        @NonNull
+        @JsonProperty(value = "photosUrl")
+        List<String> photosUrl,
+        @NonNull
+        @JsonProperty(value = "shop")
+        ShopDto shop,
+        @NonNull
+        @JsonProperty(value = "category")
+        CategoryDto category
+) {
+}

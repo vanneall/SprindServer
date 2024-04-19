@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
-import ru.point.entity.Shop;
+import ru.point.entity.table.Shop;
 import ru.point.repository.interfaces.ShopRepository;
 
 import java.util.List;

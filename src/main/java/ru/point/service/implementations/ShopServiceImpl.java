@@ -1,20 +1,22 @@
-package ru.point.service;
+package ru.point.service.implementations;
 
 import org.springframework.stereotype.Service;
-import ru.point.entity.Shop;
+import ru.point.entity.table.Shop;
 import ru.point.repository.interfaces.ShopRepository;
+import ru.point.service.interfaces.ShopService;
 
 import java.util.List;
 
 @Service
-public class ShopServiceImpl {
+public class ShopServiceImpl implements ShopService {
 
     private final ShopRepository shopRepository;
 
-    ShopServiceImpl(ShopRepository shopRepository) {
+    public ShopServiceImpl(ShopRepository shopRepository) {
         this.shopRepository = shopRepository;
     }
 
+    @Override
     public List<Shop> getAllShop() {
         return shopRepository.getAllShop();
     }
