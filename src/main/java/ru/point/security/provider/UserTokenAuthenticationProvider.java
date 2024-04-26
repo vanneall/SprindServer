@@ -3,7 +3,7 @@ package ru.point.security.provider;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import ru.point.security.authorization.JwtAuthenticationToken;
+import ru.point.security.authentication.JwtAuthenticationToken;
 import ru.point.security.exception.TokenExpiredException;
 
 import java.util.Date;
