@@ -2,10 +2,13 @@ package ru.point.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.point.entity.dto.FeedProductDto;
 import ru.point.service.interfaces.ProductService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
