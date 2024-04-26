@@ -1,22 +1,21 @@
 package ru.point.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.point.entity.dto.UserDto;
-import ru.point.entity.table.User;
-import ru.point.security.JwtUtils;
+import ru.point.security.token.TokenGenerator;
 import ru.point.service.interfaces.UsersService;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/sprind/auth")
 public class AuthorizationRestController {
 
-    UsersService usersService;
+    TokenGenerator tokenGenerator;
 
-    AuthorizationRestController(UsersService usersService) {
-        this.usersService = usersService;
-    }
+    UsersService usersService;
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @GetMapping("/reg")
@@ -27,7 +26,6 @@ public class AuthorizationRestController {
     @GetMapping()
     public String authorization(@RequestBody UserDto userDto) {
         UserDetails userDetails = usersService.loadUserByUsername(userDto.username());
-
-        return JwtUtils.generateToken(userDetails);
+        return tokenGenerator.apply(userDetails);
     }
 }
