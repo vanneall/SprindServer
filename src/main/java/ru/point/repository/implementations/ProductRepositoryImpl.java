@@ -59,7 +59,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     @Transactional
-    public ProductDto getProductById(Long id) {
+    public Product getProductById(Long id) {
         if (id <= 0) {
             throw new IllegalIdentifierException("Id must be greater then 0");
         }
@@ -70,7 +70,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             throw new EntityNotFoundException("Product doesn't exist");
         }
 
-        return ProductToProductDtoMapper.map(product);
+        return product;
     }
 
     private void setLimitAndOffset(TypedQuery<?> typedQuery, int limit, int offset) {

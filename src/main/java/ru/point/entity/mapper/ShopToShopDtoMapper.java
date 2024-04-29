@@ -1,17 +1,16 @@
 package ru.point.entity.mapper;
 
-import ru.point.entity.dto.ShopDto;
+import ru.point.entity.dto.ShopInProductDto;
 import ru.point.entity.table.Shop;
 
 public class ShopToShopDtoMapper {
     private ShopToShopDtoMapper() {
     }
 
-    public static ShopDto map(Shop shop) {
-        return new ShopDto(
+    public static ShopInProductDto map(Shop shop) {
+        return new ShopInProductDto(
                 shop.getId(),
-                shop.getName(),
-                shop.getDescription()
+                shop.getName()
         );
     }
 }

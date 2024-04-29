@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.point.entity.dto.UserDto;
 import ru.point.security.token.TokenGenerator;
-import ru.point.service.interfaces.UsersService;
+import ru.point.service.implementations.UsersService;
 
 @AllArgsConstructor
 @RestController

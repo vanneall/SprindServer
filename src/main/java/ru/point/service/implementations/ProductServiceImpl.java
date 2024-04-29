@@ -5,6 +5,7 @@ import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.stereotype.Service;
 import ru.point.entity.dto.FeedProductDto;
 import ru.point.entity.dto.ProductDto;
+import ru.point.entity.mapper.ProductToProductDtoMapper;
 import ru.point.entity.table.Product;
 import ru.point.repository.interfaces.ProductRepository;
 import ru.point.service.interfaces.ProductService;
@@ -29,6 +30,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getProductById(Long id) {
-        return repository.getProductById(id);
+        return ProductToProductDtoMapper.map(repository.getProductById(id));
     }
 }

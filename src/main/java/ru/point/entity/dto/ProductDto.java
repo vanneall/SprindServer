@@ -1,16 +1,11 @@
 package ru.point.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 import lombok.NonNull;
-import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapProperties;
-import ru.point.entity.table.Category;
 import ru.point.entity.table.Characteristic;
 import ru.point.entity.table.Price;
-import ru.point.entity.table.Shop;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 
@@ -37,9 +32,9 @@ public record ProductDto(
         List<String> photosUrl,
         @NonNull
         @JsonProperty(value = "shop")
-        ShopDto shop,
+        ShopInProductDto shop,
         @NonNull
         @JsonProperty(value = "category")
-        CategoryDto category
+        CategoryInProductDto category
 ) {
 }

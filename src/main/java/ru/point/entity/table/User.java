@@ -26,9 +26,12 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Column(name = "authorities")
     Set<Authority> authorities;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    Cart cart;
 
     @Override
     public boolean isAccountNonExpired() {

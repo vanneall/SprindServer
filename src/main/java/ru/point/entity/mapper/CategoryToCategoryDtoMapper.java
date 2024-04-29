@@ -1,6 +1,6 @@
 package ru.point.entity.mapper;
 
-import ru.point.entity.dto.CategoryDto;
+import ru.point.entity.dto.CategoryInProductDto;
 import ru.point.entity.table.Category;
 
 public class CategoryToCategoryDtoMapper {
@@ -8,13 +8,12 @@ public class CategoryToCategoryDtoMapper {
     private CategoryToCategoryDtoMapper() {
     }
 
-    public static CategoryDto map(Category category) {
+    public static CategoryInProductDto map(Category category) {
         if (category == null) return null;
 
-        return new CategoryDto(
+        return new CategoryInProductDto(
                 category.getId(),
-                category.getName(),
-                map(category.getCategory())
+                category.getName()
         );
     }
 }

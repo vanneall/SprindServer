@@ -1,4 +1,4 @@
-package ru.point.service.interfaces;
+package ru.point.service.implementations;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +8,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.point.entity.dto.UserDto;
 import ru.point.entity.table.Authority;
+import ru.point.entity.table.Cart;
 import ru.point.entity.table.User;
 import ru.point.repository.interfaces.AuthorityRepository;
 import ru.point.repository.interfaces.UsersRepository;
 
+import java.util.Collections;
 import java.util.Set;
 
 @Service
@@ -28,8 +30,11 @@ public class UsersService implements UserDetailsService {
         user.setUsername(userDto.username());
         user.setPassword(userDto.password());
 
-        Authority authority = authorityRepository.findAuthorityByName("ROLE_USER");
+        Cart cart = new Cart();
+        cart.setProducts(Collections.emptySet());
+        user.setCart(cart);
 
+        Authority authority = authorityRepository.findAuthorityByName("ROLE_USER");
         user.setAuthorities(Set.of(authority));
 
         usersRepository.save(user);
