@@ -1,6 +1,5 @@
 package ru.point.entity.mapper;
 
-import ru.point.entity.dto.FeedProductDto;
 import ru.point.entity.dto.ProductDto;
 import ru.point.entity.table.Product;
 

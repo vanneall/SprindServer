@@ -1,26 +1,19 @@
 package ru.point.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.point.entity.dto.FeedProductDto;
 import ru.point.service.interfaces.ProductService;
 
-import java.security.Principal;
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/sprind/feed")
 class FeedProductRestController {
 
-
     ProductService productService;
-
-    FeedProductRestController(ProductService productService) {
-        this.productService = productService;
-    }
 
     //TODO убрать required = false после добавления пагинации на фронте
     @GetMapping()

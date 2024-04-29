@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -30,10 +31,9 @@ public class Product {
     @Column(name = "description")
     String description;
 
-    @ElementCollection
-    @CollectionTable(name = "product_characteristics")
-    @MapKeyColumn(name = "characteristic")
-    Map<String, String> characteristics;
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @Column(name = "characteristic_id", nullable = false)
+    Set<Characteristic> characteristics;
 
     @ElementCollection
     @CollectionTable(name = "product_photo")

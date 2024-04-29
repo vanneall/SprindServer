@@ -5,11 +5,13 @@ import lombok.Data;
 import lombok.NonNull;
 import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapProperties;
 import ru.point.entity.table.Category;
+import ru.point.entity.table.Characteristic;
 import ru.point.entity.table.Price;
 import ru.point.entity.table.Shop;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public record ProductDto(
@@ -29,7 +31,7 @@ public record ProductDto(
         String description,
         @NonNull
         @JsonProperty(value = "characteristics")
-        Map<String, String> characteristics,
+        Set<Characteristic> characteristics,
         @NonNull
         @JsonProperty(value = "photosUrl")
         List<String> photosUrl,

@@ -1,5 +1,6 @@
 package ru.point.service.implementations;
 
+import lombok.AllArgsConstructor;
 import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.stereotype.Service;
 import ru.point.entity.dto.FeedProductDto;
@@ -10,14 +11,11 @@ import ru.point.service.interfaces.ProductService;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository repository;
-
-    ProductServiceImpl(ProductRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public List<FeedProductDto> getProducts(Integer limit, Integer offset) {
