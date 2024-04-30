@@ -32,7 +32,7 @@ public class Product {
     String description;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @Column(name = "characteristic_id", nullable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     Set<Characteristic> characteristics;
 
     @ElementCollection

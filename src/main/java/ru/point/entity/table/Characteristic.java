@@ -1,11 +1,15 @@
 package ru.point.entity.table;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Map;
 
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "characteristic")
 public class Characteristic {
