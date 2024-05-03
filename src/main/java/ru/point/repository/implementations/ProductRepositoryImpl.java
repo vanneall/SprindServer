@@ -27,30 +27,19 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     @Transactional
-    public List<FeedProductDto> getProducts(Integer limit, Integer offset) {
+    public List<Product> getProducts() {
         TypedQuery<Product> typedQuery = entityManager.createQuery("from Product", Product.class);
-        if (limit != null && offset != null) {
-            setLimitAndOffset(typedQuery, limit, offset);
-        }
 
-        return typedQuery
-                .getResultStream()
-                .map(ProductToFeedProductDtoMapper::map)
-                .toList();
+        return typedQuery.getResultList();
     }
 
     @Override
     @Transactional
-    public List<FeedProductDto> getProductsByName(Integer limit, Integer offset, String name) {
+    public List<Product> getProductsByName(String name) {
         TypedQuery<Product> typedQuery = entityManager.createQuery("from Product pr where pr.name like :name", Product.class);
-        if (limit != null && offset != null) {
-            setLimitAndOffset(typedQuery, limit, offset);
-        }
-        List<FeedProductDto> productDtos = typedQuery
+        List<Product> productDtos = typedQuery
                 .setParameter("name", "%" + name + "%")
-                .getResultStream()
-                .map(ProductToFeedProductDtoMapper::map)
-                .toList();
+                .getResultList();
 
         if (productDtos.isEmpty()) throw new EntityNotFoundException("Products not found");
 
@@ -71,10 +60,5 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
 
         return product;
-    }
-
-    private void setLimitAndOffset(TypedQuery<?> typedQuery, int limit, int offset) {
-        typedQuery.setFirstResult(offset);
-        typedQuery.setMaxResults(limit);
     }
 }

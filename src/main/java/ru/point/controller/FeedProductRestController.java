@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.point.entity.dto.FeedProductDto;
 import ru.point.service.interfaces.ProductService;
 
+import java.security.Principal;
 import java.util.List;
 
 @AllArgsConstructor
@@ -21,12 +22,15 @@ class FeedProductRestController {
     public List<FeedProductDto> getProductsEndpoint(
             @RequestParam(required = false, name = "limit") Integer limit,
             @RequestParam(required = false, name = "offset") Integer offset,
-            @RequestParam(required = false, name = "name") String name
+            @RequestParam(required = false, name = "name") String request,
+            Principal principal
     ) {
-        if (name == null) {
-            return productService.getProducts(limit, offset);
+        String username = principal != null ? principal.getName() : null;
+
+        if (request == null) {
+            return productService.getProducts(username);
         } else {
-            return productService.getProductsByName(limit, offset, name);
+            return productService.getProductsByName(username, request);
         }
 
     }

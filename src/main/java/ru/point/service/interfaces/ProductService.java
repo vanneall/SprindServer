@@ -1,18 +1,19 @@
 package ru.point.service.interfaces;
 
+import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.point.entity.dto.FeedProductDto;
 import ru.point.entity.dto.ProductDto;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface ProductService {
 
-    List<FeedProductDto> getProducts(Integer limit, Integer offset);
+    List<FeedProductDto> getProducts(String username);
 
-    List<FeedProductDto> getProductsByName(Integer limit, Integer offset, String name);
+    List<FeedProductDto> getProductsByName(String username, @NonNull String name);
 
-    ProductDto getProductById(Long id);
-
+    ProductDto getProductById(@NonNull Long id);
 }

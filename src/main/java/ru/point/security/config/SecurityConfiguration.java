@@ -27,16 +27,17 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain configureFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizeHttpRequests ->
-                        authorizeHttpRequests
-                                .requestMatchers("sprind/auth", "sprind/auth/reg").permitAll()
-                                .requestMatchers("sprind/cart/**").authenticated()
-                                .anyRequest().permitAll()
-                )
-                .with(new FilterChainConfigurer(), Customizer.withDefaults())
-                .authenticationProvider(new UserTokenAuthenticationProvider())
-                .build();
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(authorizeHttpRequests ->
+                authorizeHttpRequests
+                    .requestMatchers("sprind/auth", "sprind/auth/reg").permitAll()
+                    .requestMatchers("sprind/cart/**").authenticated()
+                    .requestMatchers("sprind/favorites/**").authenticated()
+                    .anyRequest().permitAll()
+            )
+            .with(new FilterChainConfigurer(), Customizer.withDefaults())
+            .authenticationProvider(new UserTokenAuthenticationProvider())
+            .build();
     }
 
     @Bean

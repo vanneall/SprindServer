@@ -8,9 +8,9 @@ import ru.point.entity.table.Product;
 import java.util.List;
 
 public interface ProductRepository {
-    List<FeedProductDto> getProducts(Integer limit, Integer offset);
+    List<Product> getProducts();
 
-    List<FeedProductDto> getProductsByName(Integer limit, Integer offset, String name);
+    List<Product> getProductsByName(String name);
 
     Product getProductById(Long id);
 }

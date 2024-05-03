@@ -16,6 +16,8 @@ public record FeedProductDto(
         String name,
         @JsonProperty(value = "price")
         Price price,
+        @JsonProperty(value = "isFavorite")
+        Boolean isFavorite,
         @JsonProperty(value = "photosUrl")
         List<String> photosUrl
 ) {

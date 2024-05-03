@@ -30,7 +30,7 @@ public class CartRepositoryImpl implements CartRepository {
         );
 
         typedQuery.setParameter("username", username);
-        return typedQuery.getResultList().stream().map(ProductToFeedProductDtoMapper::map).toList();
+        return typedQuery.getResultList().stream().map(product -> ProductToFeedProductDtoMapper.map(product, false)).toList();
     }
 
     @Transactional

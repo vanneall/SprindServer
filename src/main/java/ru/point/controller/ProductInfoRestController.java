@@ -11,7 +11,7 @@ import ru.point.service.interfaces.ProductService;
 @AllArgsConstructor
 @RestController
 @RequestMapping("sprind/product")
-public class ProductRestController {
+public class ProductInfoRestController {
 
     private final ProductService productService;
 
