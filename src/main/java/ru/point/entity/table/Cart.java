@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -22,7 +23,7 @@ public class Cart {
     @OneToOne(targetEntity = User.class, mappedBy = "cart")
     User user;
 
-    @OneToMany(targetEntity = Product.class, cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     Set<Product> products;
 
 }

@@ -34,7 +34,7 @@ public class User implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL)
     Cart cart;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     Set<Product> favorites;
 
     @Override
