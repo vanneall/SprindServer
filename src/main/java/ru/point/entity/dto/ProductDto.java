@@ -28,6 +28,9 @@ public record ProductDto(
         @JsonProperty(value = "characteristics")
         Set<CharacteristicDto> characteristics,
         @NonNull
+        @JsonProperty(value = "reviews")
+        Set<ReviewDto> review,
+        @NonNull
         @JsonProperty(value = "photosUrl")
         List<String> photosUrl,
         @NonNull

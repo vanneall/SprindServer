@@ -16,26 +16,27 @@ public class ProductToProductDtoMapper {
 
     public static ProductDto map(Product product) {
         return new ProductDto(
-                product.getId(),
-                product.getName(),
-                product.getCount(),
-                product.getPrice(),
-                product.getDescription(),
-                product.getCharacteristics().stream().map(ProductToProductDtoMapper::apply).collect(Collectors.toSet()),
-                product.getPhotosUrl(),
-                ShopToShopDtoMapper.map(product.getShop()),
-                CategoryToCategoryDtoMapper.map(product.getCategory())
+            product.getId(),
+            product.getName(),
+            product.getCount(),
+            product.getPrice(),
+            product.getDescription(),
+            product.getCharacteristics().stream().map(ProductToProductDtoMapper::apply).collect(Collectors.toSet()),
+            product.getReviews().stream().limit(3).map(ReviewToReviewDtoMapper::map).collect(Collectors.toSet()),
+            product.getPhotosUrl(),
+            ShopToShopDtoMapper.map(product.getShop()),
+            CategoryToCategoryDtoMapper.map(product.getCategory())
         );
     }
 
     private static CharacteristicDto apply(Characteristic characteristic) {
         return new CharacteristicDto(
-                characteristic.getName(),
-                characteristic.getDescriptions()
-                        .entrySet()
-                        .stream()
-                        .map(entry -> entry.getKey() + ":" + entry.getValue() + ";")
-                        .reduce((s, s2) -> s + s2).get()
+            characteristic.getName(),
+            characteristic.getDescriptions()
+                .entrySet()
+                .stream()
+                .map(entry -> entry.getKey() + ":" + entry.getValue() + ";")
+                .reduce((s, s2) -> s + s2).get()
         );
     }
 }

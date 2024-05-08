@@ -48,4 +48,7 @@ public class Product {
     @JoinColumn(name = "category_id")
     Category category;
 
+    @OneToMany(targetEntity = Review.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    Set<Review> reviews;
+
 }

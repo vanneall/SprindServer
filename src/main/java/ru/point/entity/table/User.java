@@ -37,6 +37,9 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.LAZY)
     Set<Product> favorites;
 
+    @OneToMany(targetEntity = Review.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    Set<Review> reviews;
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
