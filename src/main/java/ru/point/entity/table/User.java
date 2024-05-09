@@ -46,7 +46,7 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.LAZY)
     Set<Product> favorites;
 
-    @OneToMany(targetEntity = Review.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Review.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     Set<Review> reviews;
 
     @Override

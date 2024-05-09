@@ -19,7 +19,11 @@ public record FeedProductDto(
         @JsonProperty(value = "isFavorite")
         Boolean isFavorite,
         @JsonProperty(value = "photosUrl")
-        List<String> photosUrl
+        List<String> photosUrl,
+        @JsonProperty(value = "count")
+        Integer count,
+        @JsonProperty(value = "reviewCount")
+        Integer reviewCount
 ) {
 }
 

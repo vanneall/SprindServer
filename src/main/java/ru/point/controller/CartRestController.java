@@ -22,7 +22,7 @@ public class CartRestController {
     }
 
     @PutMapping("/add")
-    void handleCartAddEndpoint(@RequestParam(name = "productId") Long productId, Principal user) {
+    void handleCartAddEndpoint(@RequestParam(name = "id") Long productId, Principal user) {
         cartService.addProductToCart(productId, user.getName());
     }
 

@@ -12,7 +12,9 @@ public final class ReviewToReviewDtoMapper implements Function<Review, ReviewDto
     public ReviewDto apply(Review review) {
         return new ReviewDto(
             review.getId(),
-            review.getUser().getUsername(),
+            review.getUser().getName() + " " + review.getUser().getSecondName(),
+            review.getAdvantage(),
+            review.getDisadvantage(),
             review.getDescription(),
             review.getRating()
         );

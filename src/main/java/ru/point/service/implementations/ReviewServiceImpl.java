@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import ru.point.entity.dto.ReviewDto;
-import ru.point.entity.dto.ReviewPostDto;
+import ru.point.entity.dto.CreatedReviewDto;
 import ru.point.entity.mapper.ReviewToReviewDtoMapper;
 import ru.point.entity.table.Review;
 import ru.point.repository.interfaces.ProductRepository;
@@ -37,8 +37,10 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public void addReview(@NonNull Long productId, ReviewPostDto reviewDto, String username) {
+    public void addReview(@NonNull Long productId, CreatedReviewDto reviewDto, String username) {
         Review review = new Review();
+        review.setAdvantage(review.getAdvantage());
+        review.setDisadvantage(review.getDisadvantage());
         review.setDescription(reviewDto.description());
         review.setRating(reviewDto.rating());
 

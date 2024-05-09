@@ -21,12 +21,12 @@ public class FavoriteRestController {
     }
 
     @PostMapping()
-    void handlePutFavoriteEndpoint(@RequestParam(value = "productId") Long id, Principal principal) {
+    void handlePutFavoriteEndpoint(@RequestParam(value = "id") Long id, Principal principal) {
         favoriteService.putFavoriteById(id, principal.getName());
     }
 
     @DeleteMapping()
-    void handleDeleteFavoriteEndpoint(@RequestParam(value = "productId") Long id, Principal principal) {
+    void handleDeleteFavoriteEndpoint(@RequestParam(value = "id") Long id, Principal principal) {
         favoriteService.deleteFavoriteById(id, principal.getName());
     }
 }

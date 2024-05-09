@@ -28,13 +28,13 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     @Transactional
     public List<Product> getProducts() {
-        return entityManager.createQuery("from Product", Product.class).getResultList();
+        return entityManager.createQuery("from Product pr where pr.count > 0", Product.class).getResultList();
     }
 
     @Override
     @Transactional
     public List<Product> getProductsByName(String name) {
-        TypedQuery<Product> typedQuery = entityManager.createQuery("from Product pr where pr.name like :name", Product.class);
+        TypedQuery<Product> typedQuery = entityManager.createQuery("from Product pr where pr.name like :name and pr.count > 0", Product.class);
         List<Product> productDtos = typedQuery
                 .setParameter("name", "%" + name + "%")
                 .getResultList();

@@ -15,7 +15,9 @@ public class ProductToFeedProductDtoMapper implements BiFunction<Product, Boolea
             product.getName(),
             product.getPrice(),
             isInFavorite,
-            product.getPhotosUrl()
+            product.getPhotosUrl(),
+            product.getCount(),
+            product.getReviews().size()
         );
     }
 }

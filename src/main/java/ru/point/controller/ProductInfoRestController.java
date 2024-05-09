@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.point.entity.dto.ProductDto;
 import ru.point.entity.dto.ReviewDto;
-import ru.point.entity.dto.ReviewPostDto;
-import ru.point.entity.table.Review;
+import ru.point.entity.dto.CreatedReviewDto;
 import ru.point.service.interfaces.ProductService;
 import ru.point.service.interfaces.ReviewService;
 
@@ -32,7 +31,7 @@ public class ProductInfoRestController {
     }
 
     @PostMapping("/{id}/reviews")
-    public void postProductReview(@PathVariable(name = "id") Long id, @RequestBody ReviewPostDto reviewDto, Principal principal) {
+    public void postProductReview(@PathVariable(name = "id") Long id, @RequestBody CreatedReviewDto reviewDto, Principal principal) {
         reviewService.addReview(id, reviewDto, principal.getName());
     }
 
