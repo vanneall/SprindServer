@@ -1,19 +1,19 @@
 package ru.point.entity.mapper;
 
+import lombok.NonNull;
+import org.springframework.stereotype.Component;
 import ru.point.entity.dto.CategoryInProductDto;
 import ru.point.entity.table.Category;
 
-public class CategoryToCategoryDtoMapper {
+import java.util.function.Function;
 
-    private CategoryToCategoryDtoMapper() {
-    }
-
-    public static CategoryInProductDto map(Category category) {
-        if (category == null) return null;
-
+@Component
+public class CategoryToCategoryDtoMapper implements Function<Category, CategoryInProductDto> {
+    @Override
+    public CategoryInProductDto apply(@NonNull Category category) {
         return new CategoryInProductDto(
-                category.getId(),
-                category.getName()
+            category.getId(),
+            category.getName()
         );
     }
 }

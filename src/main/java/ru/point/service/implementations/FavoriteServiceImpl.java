@@ -25,11 +25,13 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     ProductRepository productRepository;
 
+    ProductToFeedProductDtoMapper productDtoMapper;
+
     @Override
     public List<FeedProductDto> getByUsername(@NonNull String username) {
         return favoriteRepository.getByUsername(username)
             .stream()
-            .map(product -> ProductToFeedProductDtoMapper.map(product, true))
+            .map(product -> productDtoMapper.apply(product, true))
             .toList();
     }
 

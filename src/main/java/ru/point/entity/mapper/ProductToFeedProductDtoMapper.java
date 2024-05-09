@@ -1,18 +1,20 @@
 package ru.point.entity.mapper;
 
-import ru.point.entity.table.Product;
+import org.springframework.stereotype.Component;
 import ru.point.entity.dto.FeedProductDto;
+import ru.point.entity.table.Product;
 
-public class ProductToFeedProductDtoMapper {
-    private ProductToFeedProductDtoMapper() {
-    }
+import java.util.function.BiFunction;
 
-    public static FeedProductDto map(Product product, Boolean isFavorite) {
+@Component
+public class ProductToFeedProductDtoMapper implements BiFunction<Product, Boolean, FeedProductDto> {
+    @Override
+    public FeedProductDto apply(Product product, Boolean isInFavorite) {
         return new FeedProductDto(
             product.getId(),
             product.getName(),
             product.getPrice(),
-            isFavorite,
+            isInFavorite,
             product.getPhotosUrl()
         );
     }

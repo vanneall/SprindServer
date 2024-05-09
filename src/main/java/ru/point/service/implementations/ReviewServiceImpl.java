@@ -25,11 +25,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     ProductRepository productRepository;
 
+    ReviewToReviewDtoMapper reviewDtoMapper;
+
     @Override
     public List<ReviewDto> getReviewsByProductId(@NonNull Long id) {
         return repository.getReviewByProductId(id)
             .stream()
-            .map(ReviewToReviewDtoMapper::map)
+            .map(reviewDtoMapper)
             .toList();
     }
 

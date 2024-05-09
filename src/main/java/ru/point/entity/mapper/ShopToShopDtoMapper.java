@@ -1,16 +1,18 @@
 package ru.point.entity.mapper;
 
+import org.springframework.stereotype.Component;
 import ru.point.entity.dto.ShopInProductDto;
 import ru.point.entity.table.Shop;
 
-public class ShopToShopDtoMapper {
-    private ShopToShopDtoMapper() {
-    }
+import java.util.function.Function;
 
-    public static ShopInProductDto map(Shop shop) {
+@Component
+public class ShopToShopDtoMapper implements Function<Shop, ShopInProductDto> {
+    @Override
+    public ShopInProductDto apply(Shop shop) {
         return new ShopInProductDto(
-                shop.getId(),
-                shop.getName()
+            shop.getId(),
+            shop.getName()
         );
     }
 }

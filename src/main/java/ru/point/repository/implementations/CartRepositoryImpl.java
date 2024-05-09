@@ -23,14 +23,14 @@ public class CartRepositoryImpl implements CartRepository {
     EntityManager entityManager;
 
     @Override
-    public List<FeedProductDto> getAllByUsername(final String username) {
+    public List<Product> getAllByUsername(final String username) {
         TypedQuery<Product> typedQuery = entityManager.createQuery(
                 "select cart.products from Cart cart where cart.user.username = :username",
                 Product.class
         );
 
         typedQuery.setParameter("username", username);
-        return typedQuery.getResultList().stream().map(product -> ProductToFeedProductDtoMapper.map(product, false)).toList();
+        return typedQuery.getResultList();
     }
 
     @Transactional

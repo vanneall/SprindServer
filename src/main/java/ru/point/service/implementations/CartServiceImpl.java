@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.point.entity.dto.FeedProductDto;
+import ru.point.entity.mapper.ProductToFeedProductDtoMapper;
 import ru.point.entity.table.Product;
 import ru.point.repository.interfaces.CartRepository;
 import ru.point.repository.interfaces.ProductRepository;
@@ -19,9 +20,14 @@ public class CartServiceImpl implements CartService {
 
     ProductRepository productRepository;
 
+    ProductToFeedProductDtoMapper productDtoMapper;
+
     @Override
     public List<FeedProductDto> getProductFromUserCart(String username) {
-        return cartRepository.getAllByUsername(username);
+        return cartRepository.getAllByUsername(username)
+            .stream()
+            .map(product -> productDtoMapper.apply(product, false))
+            .toList();
     }
 
     @Override

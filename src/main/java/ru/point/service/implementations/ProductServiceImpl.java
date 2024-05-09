@@ -2,6 +2,7 @@ package ru.point.service.implementations;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.stereotype.Service;
 import ru.point.entity.dto.FeedProductDto;
@@ -25,6 +26,10 @@ public class ProductServiceImpl implements ProductService {
 
     private final FavoriteService favoriteService;
 
+    private final ProductToFeedProductDtoMapper productDtoMapper;
+
+    private final ProductToProductDtoMapper productToProductDtoMapper;
+
     @Override
     public List<FeedProductDto> getProducts(String username) {
         List<FeedProductDto> favorites;
@@ -35,11 +40,11 @@ public class ProductServiceImpl implements ProductService {
         }
 
 
-        return repository.getProducts().stream()
-            .map(product -> ProductToFeedProductDtoMapper.map(
+        return repository.getProducts()
+            .stream()
+            .map(product -> productDtoMapper.apply(
                     product,
-                    favorites.stream()
-                        .anyMatch(feedProductDto -> feedProductDto.id().equals(product.getId()))
+                    favorites.stream().anyMatch(feedProductDto -> feedProductDto.id().equals(product.getId()))
                 )
             ).toList();
     }
@@ -53,17 +58,17 @@ public class ProductServiceImpl implements ProductService {
             favorites = Collections.emptyList();
         }
 
-        return repository.getProductsByName(name).stream()
-            .map(product -> ProductToFeedProductDtoMapper.map(
+        return repository.getProductsByName(name)
+            .stream()
+            .map(product -> productDtoMapper.apply(
                     product,
-                    favorites.stream()
-                        .anyMatch(feedProductDto -> feedProductDto.id().equals(product.getId()))
+                    favorites.stream().anyMatch(feedProductDto -> feedProductDto.id().equals(product.getId()))
                 )
             ).toList();
     }
 
     @Override
-    public ProductDto getProductById(Long id) {
-        return ProductToProductDtoMapper.map(repository.getProductById(id));
+    public ProductDto getProductById(@NonNull Long id) {
+        return productToProductDtoMapper.apply(repository.getProductById(id));
     }
 }
