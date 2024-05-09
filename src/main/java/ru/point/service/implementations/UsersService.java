@@ -1,6 +1,7 @@
 package ru.point.service.implementations;
 
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,13 +17,12 @@ import ru.point.repository.interfaces.UsersRepository;
 import java.util.Collections;
 import java.util.Set;
 
+@AllArgsConstructor
 @Service
 public class UsersService implements UserDetailsService {
 
-    @Autowired
     UsersRepository usersRepository;
 
-    @Autowired
     AuthorityRepository authorityRepository;
 
     public void save(UserDto userDto) {

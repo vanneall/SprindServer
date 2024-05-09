@@ -28,9 +28,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     @Transactional
     public List<Product> getProducts() {
-        TypedQuery<Product> typedQuery = entityManager.createQuery("from Product", Product.class);
-
-        return typedQuery.getResultList();
+        return entityManager.createQuery("from Product", Product.class).getResultList();
     }
 
     @Override

@@ -5,9 +5,11 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import ru.point.entity.table.Product;
+import ru.point.entity.table.User;
 import ru.point.repository.interfaces.FavoriteRepository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class FavoriteRepositoryImpl implements FavoriteRepository {
@@ -16,17 +18,7 @@ public class FavoriteRepositoryImpl implements FavoriteRepository {
     EntityManager entityManager;
 
     @Override
-    public List<Product> getByUsername(String username) {
-        TypedQuery<Product> typedQuery = entityManager.createQuery(
-                "select favorites from User user where user.username = :username",
-                Product.class
-        );
-
-        return typedQuery.setParameter("username", username).getResultList();
-    }
-
-    @Override
-    public void addFavoriteById(String username, Long id) {
-
+    public Set<Product> getByUsername(String username) {
+        return entityManager.find(User.class, username).getFavorites();
     }
 }
