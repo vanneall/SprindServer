@@ -4,10 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -17,9 +15,7 @@ import java.util.Set;
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid")
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "id", nullable = false, unique = true)
     String username;
 
     @Column(name = "password", nullable = false)
