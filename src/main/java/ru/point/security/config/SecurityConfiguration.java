@@ -30,9 +30,10 @@ public class SecurityConfiguration {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorizeHttpRequests ->
                 authorizeHttpRequests
-                    .requestMatchers("sprind/auth", "sprind/auth/reg").permitAll()
+                    .requestMatchers("sprind/auth/**").permitAll()
                     .requestMatchers("sprind/cart/**").authenticated()
                     .requestMatchers("sprind/favorites/**").authenticated()
+                    .requestMatchers(HttpMethod.POST, "sprind/auth/reset").permitAll()
                     .requestMatchers(HttpMethod.POST, "sprind/product/{id}/reviews").authenticated()
                     .anyRequest().permitAll()
             )

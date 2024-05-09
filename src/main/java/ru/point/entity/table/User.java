@@ -15,11 +15,26 @@ import java.util.Set;
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "telephone_id", nullable = false, unique = true)
     String username;
+
+    @Column(name = "name", nullable = false)
+    String name;
+
+    @Column(name = "second_name", nullable = false)
+    String secondName;
 
     @Column(name = "password", nullable = false)
     String password;
+
+    @Column(name = "isLocked", nullable = false)
+    Boolean isAccountLocked = false;
+
+    @Column(name = "email", nullable = false, unique = true)
+    String email;
+
+    @Column(name = "secret", nullable = false)
+    String secret;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Column(name = "authorities")
@@ -41,7 +56,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return isAccountLocked;
     }
 
     @Override
@@ -51,6 +66,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isAccountNonLocked() && isCredentialsNonExpired() && isAccountNonExpired();
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.point.entity.exception.ExceptionResponse;
+import ru.point.entity.exception.UserAlreadyExistException;
+import ru.point.entity.exception.UserCredentialsInvalidException;
 
 import java.time.LocalDateTime;
 
@@ -14,12 +16,22 @@ import java.time.LocalDateTime;
 public class ProductControllerAdvice {
 
     @ExceptionHandler(value = EntityNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> handleNotFoundException(Exception ex) {
+    public ResponseEntity<ExceptionResponse> handleNotFoundException(EntityNotFoundException ex) {
         return new ResponseEntity<>(new ExceptionResponse(ex.getMessage(), LocalDateTime.now()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = IllegalIdentifierException.class)
-    public ResponseEntity<ExceptionResponse> handleIllegalIdentifierException(Exception ex) {
+    public ResponseEntity<ExceptionResponse> handleIllegalIdentifierException(IllegalIdentifierException ex) {
         return new ResponseEntity<>(new ExceptionResponse(ex.getMessage(), LocalDateTime.now()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = UserAlreadyExistException.class)
+    public ResponseEntity<ExceptionResponse> handleUserAlreadyExistException(UserAlreadyExistException ex) {
+        return new ResponseEntity<>(new ExceptionResponse(ex.getMessage(), LocalDateTime.now()), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value = UserCredentialsInvalidException.class)
+    public ResponseEntity<ExceptionResponse> handleUserCredentialsInvalidException(UserCredentialsInvalidException ex) {
+        return new ResponseEntity<>(new ExceptionResponse(ex.getMessage(), LocalDateTime.now()), HttpStatus.FORBIDDEN);
     }
 }
