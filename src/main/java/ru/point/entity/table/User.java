@@ -49,6 +49,10 @@ public class User implements UserDetails {
     @OneToMany(targetEntity = Review.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     Set<Review> reviews;
 
+    @OneToMany(targetEntity = Order.class, fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @JoinColumn(name = "user_id")
+    Set<Order> orders;
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

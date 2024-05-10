@@ -1,15 +1,22 @@
 package ru.point.service.implementations;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import ru.point.entity.dto.FeedProductDto;
 import ru.point.entity.mapper.ProductToFeedProductDtoMapper;
+import ru.point.entity.table.Cart;
+import ru.point.entity.table.Order;
 import ru.point.entity.table.Product;
+import ru.point.entity.table.User;
 import ru.point.repository.interfaces.CartRepository;
 import ru.point.repository.interfaces.ProductRepository;
+import ru.point.repository.interfaces.UsersRepository;
 import ru.point.service.interfaces.CartService;
 
+import java.util.Collections;
 import java.util.List;
 
 @AllArgsConstructor
@@ -21,6 +28,8 @@ public class CartServiceImpl implements CartService {
     ProductRepository productRepository;
 
     ProductToFeedProductDtoMapper productDtoMapper;
+
+    UsersRepository usersRepository;
 
     @Override
     public List<FeedProductDto> getProductFromUserCart(String username) {
@@ -42,5 +51,25 @@ public class CartServiceImpl implements CartService {
     @Override
     public void clearCart(String username) {
         cartRepository.clear(username);
+    }
+
+    @Override
+    @Transactional
+    public void makeOrder(@NonNull String username) {
+        User user = usersRepository.findUserByUsername(username);
+        Cart userCart = user.getCart();
+
+        Order order = new Order();
+        order.setProducts(userCart.getProducts());
+        order.setDeliveryCost(0.0);
+        order.setProductsCost(
+            userCart.getProducts()
+                .stream()
+                .mapToDouble(product -> product.getPrice().getMoney())
+                .sum()
+        );
+
+        userCart.setProducts(Collections.emptySet());
+        user.getOrders().add(order);
     }
 }

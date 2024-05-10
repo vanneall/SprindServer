@@ -21,7 +21,7 @@ public class CartRestController {
         return cartService.getProductFromUserCart(user.getName());
     }
 
-    @PutMapping("/add")
+    @PatchMapping()
     void handleCartAddEndpoint(@RequestParam(name = "id") Long productId, Principal user) {
         cartService.addProductToCart(productId, user.getName());
     }
@@ -29,5 +29,10 @@ public class CartRestController {
     @PatchMapping("/clear")
     void handleCartClearEndpoint(Principal user) {
         cartService.clearCart(user.getName());
+    }
+
+    @PostMapping("/order")
+    void handleCartOrderEndpoint(Principal user) {
+        cartService.makeOrder(user.getName());
     }
 }
