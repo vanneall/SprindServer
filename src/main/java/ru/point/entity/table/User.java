@@ -43,7 +43,7 @@ public class User implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL)
     Cart cart;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     Set<Product> favorites;
 
     @OneToMany(targetEntity = Review.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")

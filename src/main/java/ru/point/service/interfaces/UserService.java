@@ -1,13 +1,19 @@
 package ru.point.service.interfaces;
 
-import ru.point.entity.dto.TokenDto;
-import ru.point.entity.dto.UserDto;
-import ru.point.entity.exception.UserAlreadyExistException;
+import ru.point.entity.dto.*;
+
+import java.util.List;
 
 public interface UserService {
-    void save(UserDto userDto);
+    void save(RegisteredUserDto registeredUserDto);
 
     TokenDto generateToken(String username, String password);
 
     void reset(String username, String secret, String newPassword);
+
+    List<OrderDto> getOrdersByUsername(String username);
+
+    List<ReviewDto> getReviewsByUsername(String username);
+
+    UserDto getUserInfoByUsername(String username);
 }

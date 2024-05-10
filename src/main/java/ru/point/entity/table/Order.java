@@ -28,7 +28,6 @@ public class Order {
     @Column(name = "products_cost", nullable = false)
     Double productsCost;
 
-    @Transient
     @Formula(value = "delivery_cost + products_cost")
     Double summaryCost;
 }

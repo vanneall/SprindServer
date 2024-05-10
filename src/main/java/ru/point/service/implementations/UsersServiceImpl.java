@@ -8,10 +8,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.point.entity.dto.TokenDto;
-import ru.point.entity.dto.UserDto;
+import ru.point.entity.dto.*;
 import ru.point.entity.exception.UserAlreadyExistException;
 import ru.point.entity.exception.UserCredentialsInvalidException;
+import ru.point.entity.mapper.OrderToOrderDtoMapper;
+import ru.point.entity.mapper.ReviewToReviewDtoMapper;
+import ru.point.entity.mapper.UserToUserDtoMapper;
 import ru.point.entity.table.Authority;
 import ru.point.entity.table.Cart;
 import ru.point.entity.table.User;
@@ -20,8 +22,8 @@ import ru.point.repository.interfaces.UsersRepository;
 import ru.point.security.token.TokenGenerator;
 import ru.point.service.interfaces.UserService;
 
-import javax.security.auth.login.CredentialException;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -36,24 +38,30 @@ public class UsersServiceImpl implements UserDetailsService, UserService {
 
     private final TokenGenerator tokenGenerator;
 
+    private final UserToUserDtoMapper userDtoMapper;
+
+    private final ReviewToReviewDtoMapper reviewDtoMapper;
+
+    private final OrderToOrderDtoMapper orderDtoMapper;
+
     @Override
-    public void save(UserDto userDto) {
+    public void save(RegisteredUserDto registeredUserDto) {
 
         boolean isUserExist = false;
         try {
-            isUserExist = loadUserByUsername(userDto.telephone()) != null;
+            isUserExist = loadUserByUsername(registeredUserDto.telephone()) != null;
         } catch (UsernameNotFoundException ignored) {
         }
 
         if (isUserExist) throw new UserAlreadyExistException();
 
         User newUser = new User();
-        newUser.setUsername(userDto.telephone());
-        newUser.setPassword(passwordEncoder.encode(userDto.password()));
-        newUser.setSecret(passwordEncoder.encode(userDto.secret()));
-        newUser.setName(userDto.name());
-        newUser.setSecondName(userDto.secondName());
-        newUser.setEmail(userDto.email());
+        newUser.setUsername(registeredUserDto.telephone());
+        newUser.setPassword(passwordEncoder.encode(registeredUserDto.password()));
+        newUser.setSecret(passwordEncoder.encode(registeredUserDto.secret()));
+        newUser.setName(registeredUserDto.name());
+        newUser.setSecondName(registeredUserDto.secondName());
+        newUser.setEmail(registeredUserDto.email());
 
         Cart cart = new Cart();
         cart.setProducts(Collections.emptySet());
@@ -95,5 +103,30 @@ public class UsersServiceImpl implements UserDetailsService, UserService {
         } else {
             throw new UserCredentialsInvalidException("Wrong secret");
         }
+    }
+
+    @Override
+    @Transactional
+    public List<OrderDto> getOrdersByUsername(String username) {
+        return ((User)loadUserByUsername(username))
+            .getOrders()
+            .stream()
+            .map(orderDtoMapper)
+            .toList();
+    }
+
+    @Override
+    @Transactional
+    public List<ReviewDto> getReviewsByUsername(String username) {
+        return ((User)loadUserByUsername(username))
+            .getReviews()
+            .stream()
+            .map(reviewDtoMapper)
+            .toList();
+    }
+
+    @Override
+    public UserDto getUserInfoByUsername(String username) {
+        return userDtoMapper.apply(usersRepository.findUserByUsername(username));
     }
 }

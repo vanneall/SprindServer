@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.point.entity.dto.ResetUserDto;
 import ru.point.entity.dto.TokenDto;
-import ru.point.entity.dto.UserDto;
+import ru.point.entity.dto.RegisteredUserDto;
 import ru.point.service.interfaces.UserService;
 
 @AllArgsConstructor
@@ -17,8 +17,8 @@ public class AuthorizationRestController {
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping()
-    public void registration(@RequestBody UserDto userDto) {
-        userService.save(userDto);
+    public void registration(@RequestBody RegisteredUserDto registeredUserDto) {
+        userService.save(registeredUserDto);
     }
 
     @GetMapping()
