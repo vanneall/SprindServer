@@ -26,7 +26,7 @@ public class CartRestController {
         cartService.addProductToCart(productId, user.getName());
     }
 
-    @PatchMapping("/clear")
+    @DeleteMapping()
     void handleCartClearEndpoint(Principal user) {
         cartService.clearCart(user.getName());
     }
