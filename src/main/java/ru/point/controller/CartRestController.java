@@ -31,7 +31,7 @@ public class CartRestController {
         cartService.clearCart(user.getName());
     }
 
-    @PostMapping("/order")
+    @PatchMapping("/order")
     void handleCartOrderEndpoint(Principal user) {
         cartService.makeOrder(user.getName());
     }
