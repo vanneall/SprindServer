@@ -20,7 +20,7 @@ public class FavoriteRestController {
         return favoriteService.getByUsername(principal.getName());
     }
 
-    @PostMapping()
+    @PatchMapping()
     void handlePutFavoriteEndpoint(@RequestParam(value = "id") Long id, Principal principal) {
         favoriteService.putFavoriteById(id, principal.getName());
     }
