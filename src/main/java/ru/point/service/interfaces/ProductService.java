@@ -15,5 +15,5 @@ public interface ProductService {
 
     List<FeedProductDto> getProductsByName(String username, @NonNull String name);
 
-    ProductDto getProductById(@NonNull Long id);
+    ProductDto getProductById(@NonNull Long id, String username);
 }

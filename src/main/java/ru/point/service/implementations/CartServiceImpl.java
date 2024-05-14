@@ -35,7 +35,7 @@ public class CartServiceImpl implements CartService {
     public List<FeedProductDto> getProductFromUserCart(String username) {
         return cartRepository.getAllByUsername(username)
             .stream()
-            .map(product -> productDtoMapper.apply(product, false))
+            .map(product -> productDtoMapper.apply(product, false, true))
             .toList();
     }
 

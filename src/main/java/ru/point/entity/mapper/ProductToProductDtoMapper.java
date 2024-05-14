@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
-public class ProductToProductDtoMapper implements Function<Product, ProductDto> {
+public class ProductToProductDtoMapper implements TripleFunction<Product, Boolean, Boolean, ProductDto> {
 
     private final CharacteristicToCharacteristicDtoMapper characteristicDtoMapper;
 
@@ -21,7 +21,7 @@ public class ProductToProductDtoMapper implements Function<Product, ProductDto> 
     private final CategoryToCategoryDtoMapper categoryDtoMapper;
 
     @Override
-    public ProductDto apply(Product product) {
+    public ProductDto apply(Product product, Boolean isFavorite, Boolean isInCart) {
         return new ProductDto(
             product.getId(),
             product.getName(),
@@ -29,10 +29,11 @@ public class ProductToProductDtoMapper implements Function<Product, ProductDto> 
             product.getPrice(),
             product.getDescription(),
             product.getCharacteristics().stream().map(characteristicDtoMapper).collect(Collectors.toSet()),
+            isFavorite,
+            isInCart,
             product.getReviews().stream().limit(3).map(reviewDtoMapper).collect(Collectors.toSet()),
             product.getPhotosUrl(),
             shopDtoMapper.apply(product.getShop()),
-            categoryDtoMapper.apply(product.getCategory())
-        );
+            categoryDtoMapper.apply(product.getCategory()));
     }
 }

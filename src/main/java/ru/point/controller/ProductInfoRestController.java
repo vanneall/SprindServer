@@ -21,8 +21,9 @@ public class ProductInfoRestController {
     private final ReviewService reviewService;
 
     @GetMapping("/{id}")
-    public ProductDto getProductByIdEndpoint(@PathVariable(name = "id") Long id) {
-        return productService.getProductById(id);
+    public ProductDto getProductByIdEndpoint(@PathVariable(name = "id") Long id, Principal principal) {
+        String username = principal != null ? principal.getName() : null;
+        return productService.getProductById(id, username);
     }
 
     @GetMapping("/{id}/reviews")

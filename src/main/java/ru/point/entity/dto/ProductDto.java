@@ -28,6 +28,12 @@ public record ProductDto(
         @JsonProperty(value = "characteristics")
         Set<CharacteristicDto> characteristics,
         @NonNull
+        @JsonProperty(value = "isFavorite")
+        Boolean isFavorite,
+        @NonNull
+        @JsonProperty(value = "isInCart")
+        Boolean isInCart,
+        @NonNull
         @JsonProperty(value = "reviews")
         Set<ReviewDto> review,
         @NonNull

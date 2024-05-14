@@ -24,7 +24,7 @@ public class TokenGenerator implements Function<UserDetails, String> {
 
     JWSAlgorithm jwsAlgorithm;
 
-    private final Duration DURATION = Duration.ofDays(1);
+    private final Duration DURATION = Duration.ofDays(7);
 
     @Override
     public String apply(UserDetails userDetails)  {

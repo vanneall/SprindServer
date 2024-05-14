@@ -6,6 +6,7 @@ import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import ru.point.entity.dto.FeedProductDto;
 import ru.point.entity.mapper.ProductToFeedProductDtoMapper;
+import ru.point.entity.table.Cart;
 import ru.point.entity.table.Product;
 import ru.point.entity.table.User;
 import ru.point.repository.interfaces.FavoriteRepository;
@@ -14,6 +15,7 @@ import ru.point.repository.interfaces.UsersRepository;
 import ru.point.service.interfaces.FavoriteService;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -29,9 +31,18 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     @Override
     public List<FeedProductDto> getByUsername(@NonNull String username) {
-        return favoriteRepository.getByUsername(username)
+        User user = usersRepository.findUserByUsername(username);
+        Set<Product> productsInUserCart = user.getCart().getProducts();
+        return user.getFavorites()
             .stream()
-            .map(product -> productDtoMapper.apply(product, true))
+            .map(product -> productDtoMapper.apply(
+                    product,
+                    true,
+                    productsInUserCart
+                        .stream()
+                        .anyMatch(innserProduct -> innserProduct.getId().equals(product.getId()))
+                )
+            )
             .toList();
     }
 

@@ -18,6 +18,8 @@ public record FeedProductDto(
         Price price,
         @JsonProperty(value = "isFavorite")
         Boolean isFavorite,
+        @JsonProperty(value = "isInCart")
+        Boolean isInCart,
         @JsonProperty(value = "photosUrl")
         List<String> photosUrl,
         @JsonProperty(value = "count")
