@@ -33,9 +33,11 @@ public class CartServiceImpl implements CartService {
     UsersRepository usersRepository;
 
     @Override
+    @Transactional
     public List<FeedProductDto> getProductFromUserCart(String username) {
-        var favorites = usersRepository.findUserByUsername(username).getFavorites();
-        return favorites
+        var user = usersRepository.findUserByUsername(username);
+        var favorites = user.getFavorites();
+        return user.getCart().getProducts()
             .stream()
             .map(product -> productDtoMapper.apply(product, favorites.stream().anyMatch(product1 -> product1.getId().equals(product.getId())), true))
             .toList();
