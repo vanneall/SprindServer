@@ -10,7 +10,7 @@ public interface CartService {
 
     void addProductToCart(final Long id, final String username);
 
-    void clearCart(final String username);
+    void removeProductFromCart(final Long id, final String username);
 
     void makeOrder(@NonNull final String username);
 }

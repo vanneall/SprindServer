@@ -6,7 +6,6 @@ import ru.point.entity.dto.FeedProductDto;
 import ru.point.service.interfaces.CartService;
 
 import java.security.Principal;
-import java.util.Collections;
 import java.util.List;
 
 @AllArgsConstructor
@@ -27,8 +26,8 @@ public class CartRestController {
     }
 
     @DeleteMapping()
-    void handleCartClearEndpoint(Principal user) {
-        cartService.clearCart(user.getName());
+    void handleCartClearEndpoint(@RequestParam(name = "id", required = false) Long productId, Principal user) {
+        cartService.removeProductFromCart(productId, user.getName());
     }
 
     @PatchMapping("/order")

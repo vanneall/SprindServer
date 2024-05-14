@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import ru.point.entity.dto.FeedProductDto;
 import ru.point.entity.mapper.ProductToFeedProductDtoMapper;
@@ -49,8 +50,13 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void clearCart(String username) {
-        cartRepository.clear(username);
+    public void removeProductFromCart(Long productId, String username) {
+        if (productId == null) {
+            cartRepository.clear(username);
+        } else {
+            cartRepository.deleteById(productId, username);
+        }
+
     }
 
     @Override

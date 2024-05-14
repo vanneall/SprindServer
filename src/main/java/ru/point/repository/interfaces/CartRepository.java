@@ -13,4 +13,5 @@ public interface CartRepository {
 
     void clear(final String username);
 
+    void deleteById(final Long id, final String username);
 }
