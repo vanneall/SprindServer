@@ -1,12 +1,11 @@
 package ru.point.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.point.entity.dto.OrderDto;
 import ru.point.entity.dto.ReviewDto;
 import ru.point.entity.dto.UserDto;
+import ru.point.entity.table.Address;
 import ru.point.service.interfaces.UserService;
 
 import java.security.Principal;
@@ -32,5 +31,10 @@ public class UserController {
     @GetMapping("/orders")
     List<OrderDto> handleUserOrdersEndpoint(Principal principal) {
         return userService.getOrdersByUsername(principal.getName());
+    }
+
+    @PatchMapping("/address")
+    void handleChangeAddressEndpoint(@RequestBody Address address, Principal principal) {
+        userService.setAddress(address, principal.getName());
     }
 }

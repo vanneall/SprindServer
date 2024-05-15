@@ -3,7 +3,9 @@ package ru.point.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.point.entity.dto.FeedProductDto;
+import ru.point.entity.table.complex.ComplexFeedDto;
 import ru.point.service.interfaces.CartService;
+import ru.point.service.interfaces.UserService;
 
 import java.security.Principal;
 import java.util.List;
@@ -15,9 +17,13 @@ public class CartRestController {
 
     CartService cartService;
 
+    UserService userService;
+
     @GetMapping
-    List<FeedProductDto> handleCartEndpoint(Principal user) {
-        return cartService.getProductFromUserCart(user.getName());
+    ComplexFeedDto handleCartEndpoint(Principal user) {
+        List<FeedProductDto> products = cartService.getProductFromUserCart(user.getName());
+        var address = userService.getUserInfoByUsername(user.getName()).address();
+        return new ComplexFeedDto(address, products);
     }
 
     @PatchMapping()

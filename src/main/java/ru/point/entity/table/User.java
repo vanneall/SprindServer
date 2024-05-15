@@ -36,6 +36,8 @@ public class User implements UserDetails {
     @Column(name = "secret", nullable = false)
     String secret;
 
+    Address address;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Column(name = "authorities")
     Set<Authority> authorities;

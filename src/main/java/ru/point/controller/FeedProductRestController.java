@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.point.entity.dto.FeedProductDto;
+import ru.point.entity.table.complex.ComplexFeedDto;
 import ru.point.service.interfaces.ProductService;
+import ru.point.service.interfaces.UserService;
 
 import java.security.Principal;
 import java.util.List;
@@ -16,22 +18,24 @@ class FeedProductRestController {
 
     ProductService productService;
 
-    //TODO убрать required = false после добавления пагинации на фронте
+    UserService userService;
+
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<FeedProductDto> getProductsEndpoint(
-            @RequestParam(required = false, name = "limit") Integer limit,
-            @RequestParam(required = false, name = "offset") Integer offset,
-            @RequestParam(required = false, name = "name") String request,
-            Principal principal
+    public ComplexFeedDto getProductsEndpoint(
+        @RequestParam(required = false, name = "name") String request,
+        Principal principal
     ) {
         String username = principal != null ? principal.getName() : null;
 
+        List<FeedProductDto> products;
         if (request == null) {
-            return productService.getProducts(username);
+            products = productService.getProducts(username);
         } else {
-            return productService.getProductsByName(username, request);
+            products = productService.getProductsByName(username, request);
         }
+        var address = username != null ? userService.getUserInfoByUsername(username).address() : null;
+        return new ComplexFeedDto(address, products);
 
     }
 }

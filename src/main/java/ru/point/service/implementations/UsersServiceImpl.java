@@ -14,6 +14,7 @@ import ru.point.entity.exception.UserCredentialsInvalidException;
 import ru.point.entity.mapper.OrderToOrderDtoMapper;
 import ru.point.entity.mapper.ReviewToReviewDtoMapper;
 import ru.point.entity.mapper.UserToUserDtoMapper;
+import ru.point.entity.table.Address;
 import ru.point.entity.table.Authority;
 import ru.point.entity.table.Cart;
 import ru.point.entity.table.User;
@@ -108,7 +109,7 @@ public class UsersServiceImpl implements UserDetailsService, UserService {
     @Override
     @Transactional
     public List<OrderDto> getOrdersByUsername(String username) {
-        return ((User)loadUserByUsername(username))
+        return ((User) loadUserByUsername(username))
             .getOrders()
             .stream()
             .map(orderDtoMapper)
@@ -118,7 +119,7 @@ public class UsersServiceImpl implements UserDetailsService, UserService {
     @Override
     @Transactional
     public List<ReviewDto> getReviewsByUsername(String username) {
-        return ((User)loadUserByUsername(username))
+        return ((User) loadUserByUsername(username))
             .getReviews()
             .stream()
             .map(reviewDtoMapper)
@@ -128,5 +129,13 @@ public class UsersServiceImpl implements UserDetailsService, UserService {
     @Override
     public UserDto getUserInfoByUsername(String username) {
         return userDtoMapper.apply(usersRepository.findUserByUsername(username));
+    }
+
+    @Override
+    @Transactional
+    public void setAddress(Address address, String username) {
+        User user = usersRepository.findUserByUsername(username);
+
+        user.setAddress(address);
     }
 }

@@ -14,7 +14,8 @@ public class UserToUserDtoMapper implements Function<User, UserDto> {
             user.getUsername(),
             user.getName(),
             user.getSecondName(),
-            user.getEmail()
+            user.getEmail(),
+            user.getAddress()
         );
     }
 }

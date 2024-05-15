@@ -1,6 +1,7 @@
 package ru.point.service.interfaces;
 
 import ru.point.entity.dto.*;
+import ru.point.entity.table.Address;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface UserService {
     List<ReviewDto> getReviewsByUsername(String username);
 
     UserDto getUserInfoByUsername(String username);
+
+    void setAddress(Address address, String username);
 }
