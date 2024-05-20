@@ -39,8 +39,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public void addReview(@NonNull Long productId, CreatedReviewDto reviewDto, String username) {
         Review review = new Review();
-        review.setAdvantage(review.getAdvantage());
-        review.setDisadvantage(review.getDisadvantage());
+        review.setAdvantage(reviewDto.advantage());
+        review.setDisadvantage(reviewDto.disadvantage());
         review.setDescription(reviewDto.description());
         review.setRating(reviewDto.rating());
 

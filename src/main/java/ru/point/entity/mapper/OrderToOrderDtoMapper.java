@@ -11,6 +11,7 @@ public class OrderToOrderDtoMapper implements Function<Order, OrderDto> {
     @Override
     public OrderDto apply(Order order) {
         return new OrderDto(
+            order.getId(),
             order.getDeliveryCost(),
             order.getProductsCost(),
             order.getSummaryCost()
