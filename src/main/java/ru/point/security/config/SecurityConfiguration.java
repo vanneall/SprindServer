@@ -33,7 +33,7 @@ public class SecurityConfiguration {
                     .requestMatchers("sprind/auth/**").permitAll()
                     .requestMatchers("sprind/cart/**").authenticated()
                     .requestMatchers("sprind/favorites/**").authenticated()
-                    .requestMatchers("sprind/user").authenticated()
+                    .requestMatchers("sprind/user/**").authenticated()
                     .requestMatchers(HttpMethod.POST, "sprind/auth/reset").permitAll()
                     .requestMatchers(HttpMethod.POST, "sprind/product/{id}/reviews").authenticated()
                     .anyRequest().permitAll()
