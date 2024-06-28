@@ -8,8 +8,6 @@ import java.util.List;
 
 public record ComplexFeedDto(
     @JsonProperty(value = "address")
-    Address address,
-    @JsonProperty(value = "products")
-    List<FeedProductDto> products
+    Address address
 ) {
 }

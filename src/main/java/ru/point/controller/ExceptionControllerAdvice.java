@@ -13,7 +13,7 @@ import ru.point.entity.exception.UserCredentialsInvalidException;
 import java.time.LocalDateTime;
 
 @ControllerAdvice
-public class ProductControllerAdvice {
+public class ExceptionControllerAdvice {
 
     @ExceptionHandler(value = EntityNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleNotFoundException(EntityNotFoundException ex) {

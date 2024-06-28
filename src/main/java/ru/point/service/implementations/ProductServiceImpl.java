@@ -4,6 +4,9 @@ import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import org.springframework.boot.BootstrapRegistry;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import ru.point.entity.dto.FeedProductDto;
 import ru.point.entity.dto.ProductDto;
@@ -32,49 +35,58 @@ public class ProductServiceImpl implements ProductService, ProductServiceHorizon
     private final ProductRepository productRepository;
 
     @Override
-    public List<FeedProductDto> getProducts(@Nullable String username) {
-        List<FeedProductDto> productInFavorites;
+    public List<FeedProductDto> getProducts(
+        int offset,
+        int limit,
+        @Nullable String username
+    ) {
+        List<FeedProductDto> favoriteProducts;
         Set<Product> productsInCart;
 
         if (username != null) {
             User user = userServiceHorizontal.getUserByUsername(username);
-            productInFavorites = favoriteService.getByUsername(username);
+            favoriteProducts = favoriteService.getUserFavoriteProducts(offset, limit, username);
             productsInCart = user.getCart().getProducts();
         } else {
-            productInFavorites = Collections.emptyList();
+            favoriteProducts = Collections.emptyList();
             productsInCart = Collections.emptySet();
         }
 
 
-        return productRepository.getProducts()
+        return productRepository.getProducts(offset, limit)
             .stream()
             .map(product -> productDtoMapper.apply(
                     product,
-                    productInFavorites.stream().anyMatch(feedProductDto -> feedProductDto.id().equals(product.getId())),
+                    favoriteProducts.stream().anyMatch(feedProductDto -> feedProductDto.id().equals(product.getId())),
                     productsInCart.stream().anyMatch(innerProduct -> innerProduct.getId().equals(product.getId()))
                 )
             ).toList();
     }
 
     @Override
-    public List<FeedProductDto> getProductsByName(@Nullable String username, @NonNull String name) {
-        List<FeedProductDto> productInFavorites;
+    public List<FeedProductDto> getProductsByName(
+        @NonNull String name,
+        int offset,
+        int limit,
+        @Nullable String username
+    ) {
+        List<FeedProductDto> favoriteProducts;
         Set<Product> productInCarts;
 
         if (username != null) {
             User user = userServiceHorizontal.getUserByUsername(username);
-            productInFavorites = favoriteService.getByUsername(username);
+            favoriteProducts = favoriteService.getUserFavoriteProducts(offset, limit, username);
             productInCarts = user.getCart().getProducts();
         } else {
-            productInFavorites = Collections.emptyList();
+            favoriteProducts = Collections.emptyList();
             productInCarts = Collections.emptySet();
         }
 
-        return productRepository.getProductsByName(name)
+        return productRepository.getProductsByName(name, offset, limit)
             .stream()
             .map(product -> productDtoMapper.apply(
                     product,
-                    productInFavorites.stream().anyMatch(feedProductDto -> feedProductDto.id().equals(product.getId())),
+                    favoriteProducts.stream().anyMatch(feedProductDto -> feedProductDto.id().equals(product.getId())),
                     productInCarts.stream().anyMatch(innerProduct -> innerProduct.getId().equals(product.getId()))
                 )
             ).toList();

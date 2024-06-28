@@ -13,11 +13,15 @@ import java.util.List;
 @RequestMapping("sprind/favorites")
 public class FavoriteRestController {
 
-    FavoriteService favoriteService;
+    private final FavoriteService favoriteService;
 
     @GetMapping()
-    List<FeedProductDto> handleFavoriteEndpoint(Principal principal) {
-        return favoriteService.getByUsername(principal.getName());
+    List<FeedProductDto> handleFavoriteEndpoint(
+        @RequestParam(name = "offset") int offset,
+        @RequestParam(name = "limit") int limit,
+        Principal principal
+    ) {
+        return favoriteService.getUserFavoriteProducts(offset, limit, principal.getName());
     }
 
     @PatchMapping()

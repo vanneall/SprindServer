@@ -15,15 +15,22 @@ import java.util.List;
 @RequestMapping("/sprind/cart")
 public class CartRestController {
 
-    CartService cartService;
+    private final CartService cartService;
+    private final UserService userService;
 
-    UserService userService;
+    @GetMapping("/info")
+    ComplexFeedDto handleInfoEndpoint(Principal principal) {
+        var address = userService.getUserInfoByUsername(principal.getName()).address();
+        return new ComplexFeedDto(address);
+    }
 
     @GetMapping
-    ComplexFeedDto handleCartEndpoint(Principal user) {
-        List<FeedProductDto> products = cartService.getProductFromUserCart(user.getName());
-        var address = userService.getUserInfoByUsername(user.getName()).address();
-        return new ComplexFeedDto(address, products);
+    List<FeedProductDto> handleCartEndpoint(
+        @RequestParam(name = "offset") int offset,
+        @RequestParam(name = "limit") int limit,
+        Principal principal
+    ) {
+        return cartService.getProductFromUserCart(offset, limit, principal.getName());
     }
 
     @PatchMapping()

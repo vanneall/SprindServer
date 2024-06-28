@@ -14,7 +14,7 @@ import ru.point.service.interfaces.UserService;
 @RequestMapping("/sprind/auth")
 public class AuthorizationRestController {
 
-    UserSecurityService userSecurityService;
+    private final UserSecurityService userSecurityService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()

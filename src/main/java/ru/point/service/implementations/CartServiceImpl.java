@@ -13,8 +13,8 @@ import ru.point.entity.table.Order;
 import ru.point.entity.table.Product;
 import ru.point.entity.table.User;
 import ru.point.repository.interfaces.CartRepository;
-import ru.point.repository.interfaces.ProductRepository;
 import ru.point.service.interfaces.CartService;
+import ru.point.service.interfaces.horizontal.ProductServiceHorizontal;
 import ru.point.service.interfaces.horizontal.UserServiceHorizontal;
 import ru.point.utils.factory.interfaces.OrderFactory;
 
@@ -29,28 +29,29 @@ public class CartServiceImpl implements CartService {
     private final ProductToFeedProductDtoMapper productDtoMapper;
     private final UserServiceHorizontal userServiceHorizontal;
     private final CartRepository cartRepository;
-    private final ProductRepository productRepository;
+    private final ProductServiceHorizontal productServiceHorizontal;
 
     @Override
     @Transactional
-    public List<FeedProductDto> getProductFromUserCart(String username) {
+    public List<FeedProductDto> getProductFromUserCart(int offset, int limit, String username) {
         User user = userServiceHorizontal.getUserByUsername(username);
         var favorites = user.getFavorites();
 
         return user.getCart().getProducts()
             .stream()
+            .skip(offset)
+            .limit(limit)
             .map(product -> productDtoMapper.apply(
-                    product,
-                    favorites.contains(product),
-                    true
-                )
+                product,
+                favorites.contains(product),
+                true)
             )
             .toList();
     }
 
     @Override
     public void addProductToCart(Long id, String username) {
-        Product product = productRepository.getProductById(id);
+        Product product = productServiceHorizontal.getProductById(id);
         if (product == null) throw new EntityNotFoundException("Product with this id doesn't exist");
 
         cartRepository.addProduct(product, username);

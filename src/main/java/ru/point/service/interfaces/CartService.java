@@ -6,7 +6,7 @@ import ru.point.entity.dto.FeedProductDto;
 import java.util.List;
 
 public interface CartService {
-    List<FeedProductDto> getProductFromUserCart(final String username);
+    List<FeedProductDto> getProductFromUserCart(int offset, int limit, final String username);
 
     void addProductToCart(final Long id, final String username);
 

@@ -14,20 +14,23 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("sprind/product")
-public class ProductInfoRestController {
+public class ProductRestController {
 
     private final ProductService productService;
-
     private final ReviewService reviewService;
 
     @GetMapping("/{id}")
-    public ProductDto getProductByIdEndpoint(@PathVariable(name = "id") Long id, Principal principal) {
+    public ProductDto handleInfoEndpoint(@PathVariable(name = "id") Long id, Principal principal) {
         String username = principal != null ? principal.getName() : null;
         return productService.getProductById(id, username);
     }
 
     @GetMapping("/{id}/reviews")
-    public List<ReviewDto> getProductReviews(@PathVariable(name = "id") Long id) {
+    public List<ReviewDto> getProductReviews(
+        @PathVariable(name = "id") Long id,
+        @RequestParam(name = "offset") int offset,
+        @RequestParam(name = "limit") int limit
+        ) {
         return reviewService.getReviewsByProductId(id);
     }
 

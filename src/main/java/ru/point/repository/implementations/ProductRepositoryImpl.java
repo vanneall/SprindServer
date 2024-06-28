@@ -13,7 +13,9 @@ import ru.point.entity.table.*;
 import ru.point.entity.dto.FeedProductDto;
 import ru.point.entity.mapper.ProductToFeedProductDtoMapper;
 import ru.point.repository.interfaces.ProductRepository;
+import ru.point.repository.utils.RepositoryUtils;
 
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -27,20 +29,22 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     @Transactional
-    public List<Product> getProducts() {
-        return entityManager.createQuery("from Product pr where pr.count > 0", Product.class).getResultList();
+    public List<Product> getProducts(int offset, int limit) {
+        TypedQuery<Product> typedQuery = entityManager.createQuery("from Product pr where pr.count > 0", Product.class);
+        typedQuery = RepositoryUtils.setPagingToQuery(typedQuery, offset, limit);
+        return typedQuery.getResultList();
     }
 
     @Override
     @Transactional
-    public List<Product> getProductsByName(String name) {
+    public List<Product> getProductsByName(String name, int offset, int limit) {
         TypedQuery<Product> typedQuery = entityManager.createQuery("from Product pr where pr.name like :name and pr.count > 0", Product.class);
+        typedQuery = RepositoryUtils.setPagingToQuery(typedQuery, offset, limit);
         List<Product> productDtos = typedQuery
-                .setParameter("name", "%" + name + "%")
-                .getResultList();
+            .setParameter("name", "%" + name + "%")
+            .getResultList();
 
         if (productDtos.isEmpty()) throw new EntityNotFoundException("Products not found");
-
         return productDtos;
     }
 
@@ -52,7 +56,6 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
 
         Product product = entityManager.find(Product.class, id);
-
         if (product == null) {
             throw new EntityNotFoundException("Product doesn't exist");
         }

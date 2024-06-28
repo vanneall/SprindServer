@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FavoriteService {
 
-    List<FeedProductDto> getByUsername(@NonNull String username);
+    List<FeedProductDto> getUserFavoriteProducts(int offset, int limit, @NonNull String username);
 
     void addProductByIdInFavorite(Long id, @NonNull String username);
 

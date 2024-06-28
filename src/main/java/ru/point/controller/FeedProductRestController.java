@@ -16,26 +16,28 @@ import java.util.List;
 @RequestMapping("/sprind/feed")
 class FeedProductRestController {
 
-    ProductService productService;
+    private final ProductService productService;
+    private final UserService userService;
 
-    UserService userService;
+    @GetMapping("/info")
+    public ComplexFeedDto getMainInfo(Principal principal) {
+        String username = principal != null ? principal.getName() : null;
+        var address = username != null ? userService.getUserInfoByUsername(username).address() : null;
+
+        return new ComplexFeedDto(address);
+    }
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public ComplexFeedDto getProductsEndpoint(
-        @RequestParam(required = false, name = "name") String request,
+    public List<FeedProductDto> getProductsEndpoint(
+        @RequestParam(required = false, name = "name") String productName,
+        @RequestParam(name = "offset") int offset,
+        @RequestParam(name = "limit") int limit,
         Principal principal
     ) {
         String username = principal != null ? principal.getName() : null;
-
-        List<FeedProductDto> products;
-        if (request == null) {
-            products = productService.getProducts(username);
-        } else {
-            products = productService.getProductsByName(username, request);
-        }
-        var address = username != null ? userService.getUserInfoByUsername(username).address() : null;
-        return new ComplexFeedDto(address, products);
-
+        return productName == null ?
+            productService.getProducts(offset, limit, username) :
+            productService.getProductsByName(productName, offset, limit, username);
     }
 }

@@ -36,19 +36,19 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public void addReview(@NonNull Long productId, @NonNull CreatedReviewDto reviewDto, @NonNull String username) {
-        final var user = userServiceHorizontal.getUserByUsername(username);
-        final var product = productServiceHorizontal.getProductById(productId);
+        final var reviewOwnerUser = userServiceHorizontal.getUserByUsername(username);
+        final var reviewedProduct = productServiceHorizontal.getProductById(productId);
 
         final var review = reviewFactory.create(
             reviewDto.advantage(),
             reviewDto.disadvantage(),
             reviewDto.description(),
             reviewDto.rating(),
-            user,
-            product
+            reviewOwnerUser,
+            reviewedProduct
         );
 
-        user.getReviews().add(review);
-        product.getReviews().add(review);
+        reviewOwnerUser.getReviews().add(review);
+        reviewedProduct.getReviews().add(review);
     }
 }
