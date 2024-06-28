@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.point.entity.dto.ResetUserDto;
 import ru.point.entity.dto.TokenDto;
 import ru.point.entity.dto.RegisteredUserDto;
+import ru.point.service.interfaces.UserSecurityService;
 import ru.point.service.interfaces.UserService;
 
 @AllArgsConstructor
@@ -13,22 +14,22 @@ import ru.point.service.interfaces.UserService;
 @RequestMapping("/sprind/auth")
 public class AuthorizationRestController {
 
-    UserService userService;
+    UserSecurityService userSecurityService;
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
     public void registration(@RequestBody RegisteredUserDto registeredUserDto) {
-        userService.save(registeredUserDto);
+        userSecurityService.createNewUser(registeredUserDto);
     }
 
     @GetMapping()
     public TokenDto authorization(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
-        return userService.generateToken(username, password);
+        return userSecurityService.generateAuthorizationTokenForUser(username, password);
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PatchMapping("/reset")
     public void resetPassword(@RequestBody ResetUserDto resetUserDto) {
-        userService.reset(resetUserDto.username(), resetUserDto.secret(), resetUserDto.newPassword());
+        userSecurityService.resetUserPassword(resetUserDto.username(), resetUserDto.secret(), resetUserDto.newPassword());
     }
 }

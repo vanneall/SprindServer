@@ -12,6 +12,8 @@ import ru.point.repository.interfaces.ProductRepository;
 import ru.point.repository.interfaces.ReviewRepository;
 import ru.point.repository.interfaces.UsersRepository;
 import ru.point.service.interfaces.ReviewService;
+import ru.point.service.interfaces.horizontal.ProductServiceHorizontal;
+import ru.point.service.interfaces.horizontal.UserServiceHorizontal;
 
 import java.util.List;
 
@@ -19,13 +21,10 @@ import java.util.List;
 @AllArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
-    ReviewRepository repository;
-
-    UsersRepository usersRepository;
-
-    ProductRepository productRepository;
-
-    ReviewToReviewDtoMapper reviewDtoMapper;
+    private final ReviewToReviewDtoMapper reviewDtoMapper;
+    private final UserServiceHorizontal userServiceHorizontal;
+    private final ProductServiceHorizontal productServiceHorizontal;
+    private final ReviewRepository repository;
 
     @Override
     public List<ReviewDto> getReviewsByProductId(@NonNull Long id) {
@@ -44,11 +43,11 @@ public class ReviewServiceImpl implements ReviewService {
         review.setDescription(reviewDto.description());
         review.setRating(reviewDto.rating());
 
-        final var user = usersRepository.findUserByUsername(username);
+        final var user = userServiceHorizontal.getUserByUsername(username);
         review.setUser(user);
         user.getReviews().add(review);
 
-        final var product = productRepository.getProductById(productId);
+        final var product = productServiceHorizontal.getProductById(productId);
         review.setProduct(product);
         product.getReviews().add(review);
     }

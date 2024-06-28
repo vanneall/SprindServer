@@ -18,27 +18,27 @@ import java.util.function.Function;
 
 @AllArgsConstructor
 @Component
-public class TokenGenerator implements Function<UserDetails, String> {
+public class AuthorizationTokenFactory implements Function<UserDetails, String> {
 
-    JWSSigner jwsSigner;
+    private final JWSSigner jwsSigner;
 
-    JWSAlgorithm jwsAlgorithm;
+    private final JWSAlgorithm jwsAlgorithm;
 
-    private final Duration DURATION = Duration.ofDays(7);
+    private final Duration TOKEN_LIFETIME = Duration.ofDays(7);
 
     @Override
     public String apply(UserDetails userDetails)  {
         List<String> authorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
-        Date createdDate = new Date();
-        Date expiredDate = new Date(createdDate.getTime() + DURATION.toMillis());
+        Date dateOfTokenCreation = new Date();
+        Date dateOfTokenExpires = new Date(dateOfTokenCreation.getTime() + TOKEN_LIFETIME.toMillis());
 
         JWSHeader jwsHeader = new JWSHeader(jwsAlgorithm);
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(userDetails.getUsername())
                 .claim(AUTHORITY_KEY, authorities)
-                .issueTime(createdDate)
-                .expirationTime(expiredDate)
+                .issueTime(dateOfTokenCreation)
+                .expirationTime(dateOfTokenExpires)
                 .build();
 
         SignedJWT signedJWT = new SignedJWT(jwsHeader, jwtClaimsSet);

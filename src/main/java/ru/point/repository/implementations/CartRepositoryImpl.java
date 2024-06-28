@@ -39,8 +39,8 @@ public class CartRepositoryImpl implements CartRepository {
         entityManager.find(User.class, username).getCart().setProducts(Collections.emptySet());
     }
 
-    @Override
     @Transactional
+    @Override
     public void deleteById(Long id, String username) {
         Cart cart = entityManager.find(User.class, username).getCart();
         cart.getProducts().removeIf(product -> product.getId().equals(id));

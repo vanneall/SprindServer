@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface ProductRepository {
     List<Product> getProducts();
-
     List<Product> getProductsByName(String name);
-
     Product getProductById(Long id);
 }

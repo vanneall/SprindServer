@@ -9,7 +9,7 @@ public interface FavoriteService {
 
     List<FeedProductDto> getByUsername(@NonNull String username);
 
-    void putFavoriteById(Long id, @NonNull String username);
+    void addProductByIdInFavorite(Long id, @NonNull String username);
 
-    void deleteFavoriteById(Long id, @NonNull String username);
+    void deleteProductByIdFromFavorite(Long id, @NonNull String username);
 }

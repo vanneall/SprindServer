@@ -13,6 +13,7 @@ import ru.point.repository.interfaces.FavoriteRepository;
 import ru.point.repository.interfaces.ProductRepository;
 import ru.point.repository.interfaces.UsersRepository;
 import ru.point.service.interfaces.FavoriteService;
+import ru.point.service.interfaces.horizontal.UserServiceHorizontal;
 
 import java.util.List;
 import java.util.Set;
@@ -21,46 +22,38 @@ import java.util.Set;
 @AllArgsConstructor
 public class FavoriteServiceImpl implements FavoriteService {
 
-    FavoriteRepository favoriteRepository;
-
-    UsersRepository usersRepository;
-
-    ProductRepository productRepository;
-
-    ProductToFeedProductDtoMapper productDtoMapper;
+    private final ProductToFeedProductDtoMapper productDtoMapper;
+    private final UserServiceHorizontal userServiceHorizontal;
+    private final ProductRepository productRepository;
 
     @Override
     public List<FeedProductDto> getByUsername(@NonNull String username) {
-        User user = usersRepository.findUserByUsername(username);
+        User user = userServiceHorizontal.getUserByUsername(username);
         Set<Product> productsInUserCart = user.getCart().getProducts();
         return user.getFavorites()
             .stream()
             .map(product -> productDtoMapper.apply(
                     product,
                     true,
-                    productsInUserCart
-                        .stream()
-                        .anyMatch(innserProduct -> innserProduct.getId().equals(product.getId()))
+                    productsInUserCart.contains(product)
                 )
             )
             .toList();
     }
 
-    //TODO переписать на использование сервиса внутри сервиса, а не репозитория
     @Override
     @Transactional
-    public void putFavoriteById(Long id, @NonNull String username) {
+    public void addProductByIdInFavorite(@NonNull Long id, @NonNull String username) {
         Product product = productRepository.getProductById(id);
-        User user = usersRepository.findUserByUsername(username);
+        User user = userServiceHorizontal.getUserByUsername(username);
 
         user.getFavorites().add(product);
     }
 
-    //TODO переписать на использование сервиса внутри сервиса, а не репозитория
     @Override
     @Transactional
-    public void deleteFavoriteById(Long id, @NonNull String username) {
-        User user = usersRepository.findUserByUsername(username);
+    public void deleteProductByIdFromFavorite(@NonNull Long id, @NonNull String username) {
+        User user = userServiceHorizontal.getUserByUsername(username);
 
         user.getFavorites()
             .stream()

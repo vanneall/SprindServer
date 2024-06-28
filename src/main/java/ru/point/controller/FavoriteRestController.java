@@ -22,11 +22,11 @@ public class FavoriteRestController {
 
     @PatchMapping()
     void handlePutFavoriteEndpoint(@RequestParam(value = "id") Long id, Principal principal) {
-        favoriteService.putFavoriteById(id, principal.getName());
+        favoriteService.addProductByIdInFavorite(id, principal.getName());
     }
 
     @DeleteMapping()
     void handleDeleteFavoriteEndpoint(@RequestParam(value = "id") Long id, Principal principal) {
-        favoriteService.deleteFavoriteById(id, principal.getName());
+        favoriteService.deleteProductByIdFromFavorite(id, principal.getName());
     }
 }
