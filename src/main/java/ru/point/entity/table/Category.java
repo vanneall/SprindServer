@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,11 +23,18 @@ public class Category {
     @Column(name = "name", nullable = false, unique = true)
     String name;
 
+    @Column(name = "photo_url")
+    String photoUrl;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Column(name = "shops")
+    Set<Shop> shops;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "parent_id")
     Category category;
 
-    @OneToMany(fetch = FetchType.LAZY,  cascade = {CascadeType.PERSIST})
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "category_id")
     List<Product> products;
 }

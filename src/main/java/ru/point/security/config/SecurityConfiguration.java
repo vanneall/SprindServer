@@ -34,6 +34,7 @@ public class SecurityConfiguration {
                     .requestMatchers("sprind/cart/**").authenticated()
                     .requestMatchers("sprind/favorites/**").authenticated()
                     .requestMatchers("sprind/user/**").authenticated()
+                    .requestMatchers("sprind/categories/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "sprind/auth/reset").permitAll()
                     .requestMatchers(HttpMethod.POST, "sprind/product/{id}/reviews").authenticated()
                     .anyRequest().permitAll()

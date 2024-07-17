@@ -16,10 +16,8 @@ import ru.point.repository.interfaces.ProductRepository;
 import ru.point.repository.utils.RepositoryUtils;
 
 import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
@@ -61,5 +59,16 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
 
         return product;
+    }
+
+    @Override
+    public List<Product> getProductByCategoryId(int offset, int limit, Long categoryId) {
+        TypedQuery<Product> typedQuery = entityManager.createQuery(
+            "from Product pr where pr.category.id = :id",
+            Product.class
+        );
+        typedQuery = RepositoryUtils.setPagingToQuery(typedQuery, offset, limit);
+
+        return typedQuery.setParameter("id", categoryId).getResultList();
     }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -23,6 +24,13 @@ public class Shop {
 
     @Column(name = "description")
     String description;
+
+    @Column(name = "photo_url")
+    String photoUrl;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "shops")
+    @Column(name = "categories")
+    Set<Category> category;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "shop_id")
