@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.point.entity.dto.FeedProductDto;
 import ru.point.entity.table.complex.ComplexFeedDto;
+import ru.point.entity.table.complex.FeedDto;
 import ru.point.service.interfaces.ProductService;
 import ru.point.service.interfaces.UserService;
 
@@ -20,11 +21,11 @@ class FeedProductRestController {
     private final UserService userService;
 
     @GetMapping("/info")
-    public ComplexFeedDto getMainInfo(Principal principal) {
+    public FeedDto getMainInfo(Principal principal) {
         String username = principal != null ? principal.getName() : null;
         var address = username != null ? userService.getUserInfoByUsername(username).address() : null;
 
-        return new ComplexFeedDto(address);
+        return new FeedDto(address);
     }
 
     @GetMapping()

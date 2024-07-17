@@ -21,7 +21,9 @@ public class CartRestController {
     @GetMapping("/info")
     ComplexFeedDto handleInfoEndpoint(Principal principal) {
         var address = userService.getUserInfoByUsername(principal.getName()).address();
-        return new ComplexFeedDto(address);
+        var products = cartService.getOrderSummary(principal.getName());
+
+        return new ComplexFeedDto(address, products);
     }
 
     @GetMapping

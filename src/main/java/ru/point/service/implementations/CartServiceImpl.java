@@ -6,12 +6,10 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
+import ru.point.entity.OrderSummary;
 import ru.point.entity.dto.FeedProductDto;
 import ru.point.entity.mapper.ProductToFeedProductDtoMapper;
-import ru.point.entity.table.Cart;
-import ru.point.entity.table.Order;
-import ru.point.entity.table.Product;
-import ru.point.entity.table.User;
+import ru.point.entity.table.*;
 import ru.point.repository.interfaces.CartRepository;
 import ru.point.service.interfaces.CartService;
 import ru.point.service.interfaces.horizontal.ProductServiceHorizontal;
@@ -20,6 +18,7 @@ import ru.point.utils.factory.interfaces.OrderFactory;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @Service
@@ -76,5 +75,27 @@ public class CartServiceImpl implements CartService {
         Order createdOrder = orderFactory.create(userCart.getProducts());
         userCart.setProducts(Collections.emptySet());
         user.getOrders().add(createdOrder);
+    }
+
+    @Override
+    @Transactional
+    public OrderSummary getOrderSummary(@NonNull final String username) {
+        Cart cart = userServiceHorizontal.getUserByUsername(username).getCart();
+        Set<Product> productsSet = cart.getProducts();
+
+        int delivery = productsSet.stream().mapToInt(product -> 0).sum();
+        int products = productsSet.stream().mapToInt(product -> product.getPrice().getMoney().intValue()).sum();
+        int discount = productsSet.stream().mapToInt(product -> 0).sum();
+        int promocode = productsSet.stream().mapToInt(product -> 0).sum();
+        int summary = productsSet.stream().mapToInt(product -> product.getPrice().getMoney().intValue()).sum();
+
+        Currency currency;
+        if (productsSet.stream().findFirst().isPresent()) {
+            currency = productsSet.stream().findFirst().get().getPrice().getCurrency();
+        } else {
+            currency = null;
+        }
+
+        return new OrderSummary(delivery, products, discount, promocode, summary);
     }
 }

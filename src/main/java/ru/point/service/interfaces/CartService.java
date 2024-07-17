@@ -1,6 +1,7 @@
 package ru.point.service.interfaces;
 
 import lombok.NonNull;
+import ru.point.entity.OrderSummary;
 import ru.point.entity.dto.FeedProductDto;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface CartService {
     void removeProductFromCart(final Long id, final String username);
 
     void makeOrder(@NonNull final String username);
+
+    OrderSummary getOrderSummary(@NonNull final String username);
 }
