@@ -115,7 +115,7 @@ public class ProductServiceImpl implements ProductService, ProductServiceHorizon
     }
 
     @Override
-    public List<FeedProductDto> getProductsByCategoryCategory(int offset, int limit, Long categoryId, @Nullable String username) {
+    public List<FeedProductDto> getProductsByCategory(int offset, int limit, Long categoryId, @Nullable String username) {
         List<FeedProductDto> favoriteProducts;
         Set<Product> productsInCart;
 
@@ -130,6 +130,31 @@ public class ProductServiceImpl implements ProductService, ProductServiceHorizon
 
 
         return productRepository.getProductByCategoryId(offset, limit, categoryId)
+            .stream()
+            .map(product -> productDtoMapper.apply(
+                    product,
+                    favoriteProducts.stream().anyMatch(feedProductDto -> feedProductDto.id().equals(product.getId())),
+                    productsInCart.stream().anyMatch(innerProduct -> innerProduct.getId().equals(product.getId()))
+                )
+            ).toList();
+    }
+
+    @Override
+    public List<FeedProductDto> getProductsByShop(int offset, int limit, Long categoryId, @Nullable String username) {
+        List<FeedProductDto> favoriteProducts;
+        Set<Product> productsInCart;
+
+        if (username != null) {
+            User user = userServiceHorizontal.getUserByUsername(username);
+            favoriteProducts = favoriteService.getUserFavoriteProducts(offset, limit, username);
+            productsInCart = user.getCart().getProducts();
+        } else {
+            favoriteProducts = Collections.emptyList();
+            productsInCart = Collections.emptySet();
+        }
+
+
+        return productRepository.getProductsFromShopById(categoryId, offset, limit)
             .stream()
             .map(product -> productDtoMapper.apply(
                     product,

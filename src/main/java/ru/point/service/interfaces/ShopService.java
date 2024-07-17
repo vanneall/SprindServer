@@ -1,9 +1,9 @@
 package ru.point.service.interfaces;
 
-import ru.point.entity.table.Shop;
+import ru.point.entity.dto.FeedProductDto;
 
 import java.util.List;
 
 public interface ShopService {
-    List<Shop> getAllShop();
+    public List<FeedProductDto> getProductsByShop(int offset, int limit, long shopId, String username);
 }

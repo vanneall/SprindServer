@@ -5,6 +5,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import lombok.NonNull;
 import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.stereotype.Repository;
 import ru.point.entity.dto.ProductDto;
@@ -71,4 +72,16 @@ public class ProductRepositoryImpl implements ProductRepository {
 
         return typedQuery.setParameter("id", categoryId).getResultList();
     }
+
+    @Override
+    public List<Product> getProductsFromShopById(@NonNull Long id, int offset, int limit) {
+        TypedQuery<Product> typedQuery = entityManager.createQuery(
+            "from Product pr where pr.shop.id = :id",
+            Product.class
+        );
+        typedQuery = RepositoryUtils.setPagingToQuery(typedQuery, offset, limit);
+
+        return typedQuery.setParameter("id", id).getResultList();
+    }
+
 }
