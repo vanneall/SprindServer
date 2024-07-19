@@ -34,6 +34,8 @@ public class ProductToProductDtoMapper implements TripleFunction<Product, Boolea
             product.getReviews().stream().limit(3).map(reviewDtoMapper).collect(Collectors.toSet()),
             product.getPhotosUrl(),
             shopDtoMapper.apply(product.getShop()),
-            categoryDtoMapper.apply(product.getCategory()));
+            categoryDtoMapper.apply(product.getCategory()),
+            product.getRating()
+        );
     }
 }
