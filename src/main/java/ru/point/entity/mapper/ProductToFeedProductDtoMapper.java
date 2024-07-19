@@ -18,7 +18,8 @@ public class ProductToFeedProductDtoMapper implements TripleFunction<Product, Bo
             isInCart,
             product.getPhotosUrl(),
             product.getCount(),
-            product.getReviews().size()
+            product.getRating(),
+            product.getReviewsCount()
         );
     }
 }

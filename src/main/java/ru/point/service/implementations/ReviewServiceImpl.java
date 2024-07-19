@@ -3,6 +3,7 @@ package ru.point.service.implementations;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.point.entity.dto.ReviewDto;
 import ru.point.entity.dto.CreatedReviewDto;
@@ -26,8 +27,8 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Override
-    public List<ReviewDto> getReviewsByProductId(@NonNull Long id) {
-        return reviewRepository.getReviewByProductId(id)
+    public List<ReviewDto> getReviewsByProductId(int offset, int limit, @NonNull Long id) {
+        return reviewRepository.getReviewByProductId(id, PageRequest.of(offset, limit))
             .stream()
             .map(reviewDtoMapper)
             .toList();
@@ -47,6 +48,12 @@ public class ReviewServiceImpl implements ReviewService {
             reviewOwnerUser,
             reviewedProduct
         );
+
+        final float productRating = reviewedProduct.getRating();
+        final int productReviewsCount = reviewedProduct.getReviewsCount();
+        final float newUserReviewRating = review.getRating();
+        final float newRating = (productRating * productReviewsCount + newUserReviewRating) / (productReviewsCount + 1);
+        reviewedProduct.setRating(newRating);
 
         reviewOwnerUser.getReviews().add(review);
         reviewedProduct.getReviews().add(review);

@@ -2,6 +2,7 @@ package ru.point.entity.table;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Formula;
 
 import java.util.List;
 import java.util.Set;
@@ -50,4 +51,9 @@ public class Product {
     @OneToMany(targetEntity = Review.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
     Set<Review> reviews;
 
+    @Column(name = "rating", nullable = false)
+    Float rating = 0f;
+
+    @Formula("(select count(review.id) from review where review.product_id = id)")
+    Integer reviewsCount;
 }

@@ -31,12 +31,11 @@ public class ProductRestController {
         @RequestParam(name = "offset") int offset,
         @RequestParam(name = "limit") int limit
         ) {
-        return reviewService.getReviewsByProductId(id);
+        return reviewService.getReviewsByProductId(offset, limit, id);
     }
 
     @PostMapping("/{id}/reviews")
     public void postProductReview(@PathVariable(name = "id") Long id, @RequestBody CreatedReviewDto reviewDto, Principal principal) {
         reviewService.addReview(id, reviewDto, principal.getName());
     }
-
 }

@@ -24,6 +24,8 @@ public record FeedProductDto(
         List<String> photosUrl,
         @JsonProperty(value = "count")
         Integer count,
+        @JsonProperty(value = "rating")
+        Float rating,
         @JsonProperty(value = "reviewCount")
         Integer reviewCount
 ) {
